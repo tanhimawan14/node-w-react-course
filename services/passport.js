@@ -24,9 +24,7 @@ passport.use(
     new GoogleStrategy({
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: '/auth/google/callback',
-        // enable for proxy
-        proxy: true
+        callbackURL: keys.addressURI,
     }, (accessToken, refreshToken, profile, done) => {
         // Validator to block duplicated id
         User.findOne({googleId: profile.id})
