@@ -25,6 +25,7 @@ passport.use(
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
         callbackURL: '/auth/google/callback',
+        // enable for proxy
         proxy: true
     }, (accessToken, refreshToken, profile, done) => {
         // Validator to block duplicated id
