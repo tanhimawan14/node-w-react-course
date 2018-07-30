@@ -20,6 +20,7 @@ passport.deserializeUser((id, done) => {
 
 // passport.use => create authentication in "general", not specific
 // new GoogleStrategy => create new google strategy configuration for auth.
+/*
 passport.use(
     new GoogleStrategy({
         clientID: keys.googleClientID,
@@ -28,6 +29,7 @@ passport.use(
         proxy: true
     }, (accessToken, refreshToken, profile, done) => {
         // Validator to block duplicated id
+        
         User.findOne({googleId: profile.id})
             .then((exsistingUser) => {
                 if(!exsistingUser) {
@@ -40,6 +42,27 @@ passport.use(
                     done(null, exsistingUser)
                 }
             })
+        }
+        )
+);
+*/
+
+passport.use(
+    new GoogleStrategy({
+        clientID: keys.googleClientID,
+        clientSecret: keys.googleClientSecret,
+        callbackURL: keys.addressURI,
+        proxy: true
+    }, 
+    
+    async (accessToken, refreshToken, profile, done) => {
+        const exsistingUser = await User.findOne({googleId: profile.id})
+            
+        if(exsistingUser) {
+            return done(null, exsistingUser)
+        }
+
+        const user = await new User({ googleId: profile.id, email: profile.emails[0].value }).save()
+        done(null, user);
     })
 );
-
