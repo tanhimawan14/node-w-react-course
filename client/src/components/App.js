@@ -11,7 +11,7 @@ import * as actions from '../actions';
 // creating variable for component
 import Landing from './Landing';
 import Header from './Header';
-const Dashboard = () => <h2>Dashboard</h2>
+import Dashboard from './Dashboard';
 const SurveyNew = () => <h2>SurveyNew</h2>
 
 class App extends Component {
